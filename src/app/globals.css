@@ -1441,79 +1441,91 @@
   body {
     @apply bg-background text-foreground;
   }
+  .katex {
+    color: hsl(var(--foreground));
+  }
+  .katex-display {
+    @apply p-2 overflow-x-auto my-6;
+  }
+  .katex-display > .katex {
+    white-space: nowrap;
+  }
+  .katex .katex-mathml {
+    color: hsl(var(--foreground));
+  }
+}
 
-  button {
-    @apply cursor-pointer;
-  }
+button {
+  @apply cursor-pointer;
+}
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-  .mention {
-    color: #0070f3;
-    font-weight: 700;
-    background-color: rgba(0, 112, 243, 0.1);
-    border-radius: 12px;
-    padding: 0.2rem 0.6rem;
-    margin: 0 0.1rem;
-  }
-  .duration-3000 {
-    --tw-duration: 3000ms;
-    transition-duration: var(--tw-duration);
-  }
-  .duration-5000 {
-    --tw-duration: 5000ms;
-    transition-duration: var(--tw-duration);
-  }
+.mention {
+  color: #0070f3;
+  font-weight: 700;
+  background-color: rgba(0, 112, 243, 0.1);
+  border-radius: 12px;
+  padding: 0.2rem 0.6rem;
+  margin: 0 0.1rem;
+}
+.duration-3000 {
+  --tw-duration: 3000ms;
+  transition-duration: var(--tw-duration);
+}
+.duration-5000 {
+  --tw-duration: 5000ms;
+  transition-duration: var(--tw-duration);
+}
 
-  .delayed-fade-in {
-    animation: delayedFadeIn 5s ease-in-out forwards;
+.delayed-fade-in {
+  animation: delayedFadeIn 5s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes delayedFadeIn {
+  0% {
     opacity: 0;
   }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
-  @keyframes delayedFadeIn {
-    0% {
-      opacity: 0;
-    }
-    80% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
   }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
 
-  @keyframes wiggle {
-    0%,
-    100% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(-8deg);
-    }
-    75% {
-      transform: rotate(8deg);
-    }
-  }
+.wiggle {
+  animation: wiggle 2.5s ease-in-out infinite;
+}
 
-  .wiggle {
-    animation: wiggle 2.5s ease-in-out infinite;
-  }
+.react-flow__node-default {
+  @apply bg-transparent! text-foreground! p-0! border-none! text-sm! text-left! shadow-none!;
+}
+.react-flow__panel.react-flow__attribution.bottom.right {
+  @apply hidden!;
+}
 
-  .react-flow__node-default {
-    @apply bg-transparent! text-foreground! p-0! border-none! text-sm! text-left! shadow-none!;
-  }
-  .react-flow__panel.react-flow__attribution.bottom.right {
-    @apply hidden!;
-  }
+.fade-300 {
+  @apply fade-in animate-in duration-300;
+}
 
-  .fade-300 {
-    @apply fade-in animate-in duration-300;
-  }
-
-  .transition-colors-300 {
-    @apply transition-colors duration-300;
-  }
+.transition-colors-300 {
+  @apply transition-colors duration-300;
 }

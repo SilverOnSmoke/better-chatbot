@@ -1,6 +1,8 @@
 import React, { memo, PropsWithChildren } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { PreBlock } from "./pre-block";
 import { isJson, isString, toAny } from "lib/utils";
 import JsonView from "ui/json-view";
@@ -142,6 +144,58 @@ const components: Partial<Components> = {
       <img className="mx-auto rounded-lg" src={src} alt={alt} {...rest} />
     ) : null;
   },
+  table: ({ node, children, ...props }) => {
+    return (
+      <div className="overflow-x-auto my-6">
+        <table
+          className="min-w-full border-collapse border border-border rounded-lg bg-card"
+          {...props}
+        >
+          {children}
+        </table>
+      </div>
+    );
+  },
+  thead: ({ node, children, ...props }) => {
+    return (
+      <thead className="bg-accent/30" {...props}>
+        {children}
+      </thead>
+    );
+  },
+  tbody: ({ node, children, ...props }) => {
+    return <tbody {...props}>{children}</tbody>;
+  },
+  tr: ({ node, children, ...props }) => {
+    return (
+      <tr
+        className="border-b border-border hover:bg-accent/10 transition-colors"
+        {...props}
+      >
+        {children}
+      </tr>
+    );
+  },
+  th: ({ node, children, ...props }) => {
+    return (
+      <th
+        className="px-4 py-3 text-left font-semibold border-r border-border last:border-r-0 text-foreground"
+        {...props}
+      >
+        <WordByWordFadeIn>{children}</WordByWordFadeIn>
+      </th>
+    );
+  },
+  td: ({ node, children, ...props }) => {
+    return (
+      <td
+        className="px-4 py-3 border-r border-border last:border-r-0 text-foreground"
+        {...props}
+      >
+        <WordByWordFadeIn>{children}</WordByWordFadeIn>
+      </td>
+    );
+  },
 };
 
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
@@ -150,7 +204,11 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       {isJson(children) ? (
         <JsonView data={children} />
       ) : (
-        <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown
+          components={components}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+        >
           {children}
         </ReactMarkdown>
       )}

@@ -68,13 +68,23 @@ const Particles = dynamic(() => import("ui/particles"), {
 const debounce = createDebounce();
 
 const version = "0.0.0";
-const isFirstTime = !localStorage.getItem(`V_${version}`);
-localStorage.setItem(`V_${version}`, "true");
 
 export default function ChatBot({ threadId, initialMessages, slots }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [thinking, setThinking] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(false);
+
+  // Check if this is the user's first time using this version (client-side only)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasSeenVersion = localStorage.getItem(`V_${version}`);
+      if (!hasSeenVersion) {
+        setIsFirstTime(true);
+        localStorage.setItem(`V_${version}`, "true");
+      }
+    }
+  }, []);
 
   const [
     appStoreMutate,

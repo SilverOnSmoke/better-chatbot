@@ -3,6 +3,7 @@
 import type { UIMessage } from "ai";
 import { memo, useMemo, useState } from "react";
 import equal from "lib/equal";
+import Image from "next/image";
 
 import { cn, truncateString } from "lib/utils";
 import type { UseChatHelpers } from "@ai-sdk/react";
@@ -64,16 +65,45 @@ const PurePreviewMessage = ({
           {message.experimental_attachments && (
             <div
               data-testid={"message-attachments"}
-              className="flex flex-row justify-end gap-2"
+              className="flex flex-row justify-end gap-2 flex-wrap"
             >
-              {message.experimental_attachments.map((attachment) => (
-                <Alert key={attachment.url}>
-                  <AlertTitle>Attachment</AlertTitle>
-                  <AlertDescription>
-                    attachment not yet implemented 😁
-                  </AlertDescription>
-                </Alert>
-              ))}
+              {message.experimental_attachments.map((attachment, index) => {
+                // Check if the attachment is an image
+                const isImage =
+                  attachment.contentType?.startsWith("image/") ||
+                  attachment.url?.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i);
+
+                if (isImage) {
+                  return (
+                    <div
+                      key={`${attachment.url}-${index}`}
+                      className="relative max-w-sm rounded-lg overflow-hidden border bg-card"
+                    >
+                      <Image
+                        src={attachment.url}
+                        alt={`Image attachment ${index + 1}`}
+                        width={400}
+                        height={300}
+                        className="w-full h-auto max-h-64 object-contain"
+                        unoptimized={true} // Use unoptimized for user uploads to avoid external domain issues
+                      />
+                    </div>
+                  );
+                } else {
+                  // For non-image attachments, show a generic attachment card
+                  return (
+                    <div
+                      key={`${attachment.url}-${index}`}
+                      className="relative max-w-sm rounded-lg overflow-hidden border bg-card p-4"
+                    >
+                      <AlertTitle>Attachment</AlertTitle>
+                      <AlertDescription>
+                        File attachment {index + 1}
+                      </AlertDescription>
+                    </div>
+                  );
+                }
+              })}
             </div>
           )}
 

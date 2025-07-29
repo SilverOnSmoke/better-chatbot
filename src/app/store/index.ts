@@ -7,6 +7,7 @@ import { WorkflowSummary } from "app-types/workflow";
 import { AppDefaultToolkit } from "lib/ai/tools";
 import { Agent } from "app-types/agent";
 import { ArchiveWithItemCount } from "app-types/archive";
+import { UploadedFile } from "@/hooks/use-file-upload";
 
 export interface AppState {
   threadList: ChatThread[];
@@ -44,6 +45,7 @@ export interface AppState {
       providerOptions?: Record<string, any>;
     };
   };
+  uploadedFiles: UploadedFile[];
 }
 
 export interface AppDispatch {
@@ -79,6 +81,7 @@ const initialState: AppState = {
       },
     },
   },
+  uploadedFiles: [],
 };
 
 export const appStore = create<AppState & AppDispatch>()(

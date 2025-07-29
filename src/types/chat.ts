@@ -164,3 +164,8 @@ export const ClientToolInvocationZodSchema = z.object({
 export type ClientToolInvocation = z.infer<
   typeof ClientToolInvocationZodSchema
 >;
+
+export type ChatAttachment = {
+  url: string;
+  size?: number;
+};
