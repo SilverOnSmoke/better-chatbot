@@ -1441,17 +1441,48 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Enhanced KaTeX styling for better LaTeX rendering */
   .katex {
     color: hsl(var(--foreground));
+    font-size: 1.1em;
   }
+
   .katex-display {
-    @apply p-2 overflow-x-auto my-6;
+    @apply my-6 overflow-x-auto overflow-y-hidden;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    background-color: hsl(var(--muted) / 0.3);
+    border: 1px solid hsl(var(--border));
+    text-align: center;
   }
+
   .katex-display > .katex {
     white-space: nowrap;
+    color: hsl(var(--foreground));
   }
+
   .katex .katex-mathml {
     color: hsl(var(--foreground));
+  }
+
+  /* Inline math styling */
+  .katex:not(.katex-display) {
+    @apply inline;
+    padding: 0.125rem 0.25rem;
+    background-color: hsl(var(--muted) / 0.2);
+    border-radius: 0.25rem;
+    margin: 0 0.125rem;
+  }
+
+  /* Dark mode adjustments */
+  [data-theme="dark"] .katex {
+    color: hsl(var(--foreground));
+  }
+
+  [data-theme="dark"] .katex-display {
+    background-color: hsl(var(--muted) / 0.2);
+    border-color: hsl(var(--border));
   }
 }
 
