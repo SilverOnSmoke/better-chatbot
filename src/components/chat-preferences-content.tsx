@@ -263,9 +263,11 @@ export function MCPInstructionsContent() {
         </div>
         <div className="flex flex-col gap-2 text-foreground flex-1">
           {isLoading ? (
-            Array.from({ length: 10 }).map((_, index) => (
-              <Skeleton key={index} className="h-14" />
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Skeleton key={index} className="h-14" />
+              ))}
+            </div>
           ) : mcpList.length === 0 ? (
             <div className="flex flex-col gap-2 text-foreground flex-1">
               <p className="text-center py-8 text-muted-foreground">
@@ -273,24 +275,41 @@ export function MCPInstructionsContent() {
               </p>
             </div>
           ) : (
-            <div className="flex gap-2">
-              {mcpList.map((mcp) => (
-                <Button
-                  onClick={() => setMcpServer({ ...mcp, id: mcp.id })}
-                  variant={"outline"}
-                  size={"lg"}
-                  key={mcp.id}
-                >
-                  <p>{mcp.name}</p>
-                  {mcp.error ? (
-                    <AlertCircle className="size-3.5 text-destructive" />
-                  ) : mcp.status == "loading" ? (
-                    <Loader className="size-3.5 animate-spin" />
-                  ) : null}
-                </Button>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+              {mcpList
+                .filter(
+                  (mcp) =>
+                    search.length === 0 ||
+                    mcp.name.toLowerCase().includes(search.toLowerCase()),
+                )
+                .map((mcp) => (
+                  <Button
+                    onClick={() => setMcpServer({ ...mcp, id: mcp.id })}
+                    variant={"outline"}
+                    size={"lg"}
+                    key={mcp.id}
+                    className="h-auto p-4 flex flex-col items-start gap-2 text-left justify-start"
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      <p className="font-medium truncate flex-1">{mcp.name}</p>
+                      {mcp.error ? (
+                        <AlertCircle className="size-3.5 text-destructive flex-shrink-0" />
+                      ) : mcp.status == "loading" ? (
+                        <Loader className="size-3.5 animate-spin flex-shrink-0" />
+                      ) : null}
+                    </div>
+                  </Button>
+                ))}
             </div>
           )}
+          {search.length > 0 &&
+            mcpList.filter((mcp) =>
+              mcp.name.toLowerCase().includes(search.toLowerCase()),
+            ).length === 0 && (
+              <p className="text-center py-8 text-muted-foreground">
+                {t("Common.noResults")}
+              </p>
+            )}
         </div>
       </div>
     </div>

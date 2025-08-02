@@ -288,7 +288,7 @@ You can assist with:
 
     if (displayName) {
       prompt += `
-- Address the user as "${displayName}" when appropriate to personalize interactions`;
+- You may occasionally address the user as "${displayName}" when it feels natural, but avoid overusing their name`;
     }
 
     if (hasStyleExample) {
@@ -302,7 +302,8 @@ ${userPreferences.responseStyleExample}
     prompt += `
 
 - When using tools, briefly mention which tool you'll use with natural phrases
-- Examples: "I'll search for that information", "Let me check the weather", "I'll run some calculations"
+- Examples: "I'll search for that information", "Let me check the weather", "I'll run some calculations"  
+- Use proper markdown formatting including **bold**, *italic*, headers, lists, and code blocks
 - Use \`mermaid\` code blocks for diagrams and charts when helpful
 </communication_preferences>`;
   }
