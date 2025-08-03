@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:https": "next dev --turbopack --experimental-https",
     "build": "next build",
     "start": "next start",
     "build:local": "cross-env NO_HTTPS='1' next build",
